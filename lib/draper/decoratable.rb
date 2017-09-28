@@ -57,6 +57,10 @@ module Draper
       #   see {Decorator.decorate_collection}.
       def decorate(options = {})
         collection = Rails::VERSION::MAJOR >= 4 ? all : scoped
+        _decorate(collection, options)
+      end
+
+      def _decorate(collection, options)
         decorator_class.decorate_collection(collection, options.reverse_merge(with: nil))
       end
 

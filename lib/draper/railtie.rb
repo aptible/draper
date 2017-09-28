@@ -43,6 +43,16 @@ module Draper
       end
     end
 
+    initializer "draper.setup_better_activerecord_orm" do |app|
+      ActiveSupport.on_load :active_record do
+        ActiveRecord::Associations::CollectionProxy.class_eval do
+          def decorate(options = {})
+            _decorate(self, options)
+          end
+        end
+      end
+    end
+
     initializer "draper.setup_active_model_serializers" do |app|
       ActiveSupport.on_load :active_model_serializers do
         if defined?(ActiveModel::ArraySerializerSupport)
